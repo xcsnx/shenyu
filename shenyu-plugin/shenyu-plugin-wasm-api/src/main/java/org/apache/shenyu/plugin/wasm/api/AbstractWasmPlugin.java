@@ -50,7 +50,7 @@ public abstract class AbstractWasmPlugin extends WasmLoader implements ShenyuPlu
     
     protected static final Map<Long, Argument> ARGUMENTS = new ConcurrentHashMap<>();
     
-    protected static final String EXECUTE_METHOD_NAME = "execute";
+    protected static final String EXECUTE_METHOD_NAME = "multiply";
     
     protected static final String BEFORE_METHOD_NAME = "before";
     
@@ -85,8 +85,8 @@ public abstract class AbstractWasmPlugin extends WasmLoader implements ShenyuPlu
         final Long argumentId = getArgumentId(exchange, chain);
         ARGUMENTS.put(argumentId, new Argument(exchange, chain));
         // call WASI function
-        WasmFunctions.consumer(super.getStore(), execute.func(), WasmValType.I64)
-                .accept(argumentId);
+        WasmFunctions.consumer(super.getStore(), execute.func(), WasmValType.I32)
+                .accept(0);
         ARGUMENTS.remove(argumentId);
         return argumentId;
     }
